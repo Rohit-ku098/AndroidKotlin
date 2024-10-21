@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewsDetailActivity"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/newsHeadingImage"
+        android:layout_width="match_parent"
+        android:layout_height="273dp"
+        app:srcCompat="@drawable/news1" />
+
+    <TextView
+        android:id="@+id/headingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
+        android:text="How To Transfer Data From Android To iPhone Easily"
+        android:textSize="23sp"
+        android:textStyle="bold"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/newsDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="You have to follow the steps that I am going to share when you first turn on your iPhone and set it up. If you have already set up your iPhone, you will have to either reset the iPhone or manually transfer the data.\nStep 1: Turn on your new iPhone and you will see the ‘Hello’ screen. Place it near your Android phone.\n\nStep 2: Follow all the instructions on your iPhone until you reach the “Quick Start” screen. Here click on “Set Up Without Another Device”.\n\nStep 3: Then go to the “Transfer Your Apps &amp; Data” screen and select “From Android” from the given menu. " />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

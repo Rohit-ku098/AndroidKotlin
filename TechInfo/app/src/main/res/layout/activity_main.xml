@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/primary"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="107dp"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:text="Welcome To TechInfo"
+        android:textSize="35dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/startImage"
+        android:layout_width="237dp"
+        android:layout_height="227dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/startpage"
+        tools:layout_editor_absoluteX="87dp"
+        tools:layout_editor_absoluteY="252dp" />
+
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="50dp"
+        android:hint="Enter your name"
+        android:inputType="textPersonName"
+        tools:layout_editor_absoluteX="120dp"
+        tools:layout_editor_absoluteY="400dp" />
+
+    <Button
+        android:id="@+id/startBtn"
+        android:layout_width="187dp"
+        android:layout_height="54dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="Let's Start"
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="590dp" />
+
+
+</LinearLayout>
