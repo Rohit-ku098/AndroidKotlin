@@ -32,7 +32,11 @@ class MainActivity : AppCompatActivity() {
         incrementBtn1 = findViewById<Button>(R.id.incrementButton1)
         incrementBtn2 = findViewById<Button>(R.id.incrementButton2)
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        // creating a view model
+//        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        // creating a view model with a ViewModelFactory and passing default value 10 as counter
+        viewModel = ViewModelProvider(this, MainViewModelFactory(10)).get(MainViewModel::class.java)
 
         setText1()
         setText2()
