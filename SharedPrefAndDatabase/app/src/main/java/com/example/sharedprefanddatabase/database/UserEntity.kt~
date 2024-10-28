@@ -12,6 +12,5 @@ data class UserEntity(
     val email: String,
     val password: String,
     val date: Date,
-    // Add column
     val isActive: Int
 )

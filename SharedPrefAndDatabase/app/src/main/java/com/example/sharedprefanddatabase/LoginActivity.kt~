@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
                 editor.putBoolean("isLogin",true)
                 editor.apply()
 
-                val user = UserEntity(0,name, email, password, Date(), 1)
+                val user = UserEntity(0,name, email, password, Date())
                 GlobalScope.launch {
                     database.userDao().insert(user)
                 }
