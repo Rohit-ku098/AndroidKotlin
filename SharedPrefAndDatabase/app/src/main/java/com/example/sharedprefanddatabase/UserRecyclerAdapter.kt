@@ -21,6 +21,7 @@ class UserRecyclerAdapter(val userList: MutableList<UserEntity>): RecyclerView.A
         val name = view.findViewById<TextView>(R.id.item_name)
         val email = view.findViewById<TextView>(R.id.item_email)
         val deleteButton = view.findViewById<ImageView>(R.id.deleteButton)
+        val date = view.findViewById<TextView>(R.id.item_date)
 
         init {
             deleteButton.setOnClickListener {
@@ -41,6 +42,7 @@ class UserRecyclerAdapter(val userList: MutableList<UserEntity>): RecyclerView.A
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = userList[position].name
         holder.email.text = userList[position].email
+        holder.date.text = userList[position].date.toString()
     }
 
 }

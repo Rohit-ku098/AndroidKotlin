@@ -12,6 +12,7 @@ import com.example.sharedprefanddatabase.database.MyDatabase
 import com.example.sharedprefanddatabase.database.UserEntity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class LoginActivity : AppCompatActivity() {
     lateinit var database: MyDatabase
@@ -44,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
                 editor.putBoolean("isLogin",true)
                 editor.apply()
 
-                val user = UserEntity(0,name, email, password)
+                val user = UserEntity(0,name, email, password, Date())
                 GlobalScope.launch {
                     database.userDao().insert(user)
                 }

@@ -43,8 +43,4 @@ class UserRecyclerAdapter(val userList: MutableList<UserEntity>): RecyclerView.A
         holder.email.text = userList[position].email
     }
 
-    fun removeItem(position: Int) {
-        userList.removeAt(position)
-        notifyItemRemoved(position)
-    }
 }
