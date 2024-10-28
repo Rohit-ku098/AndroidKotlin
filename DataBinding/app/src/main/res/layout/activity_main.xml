@@ -30,18 +30,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!--        One way data binding-->
+
+        <!--        update using live data-->
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@={mainViewModel.quote}"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="40dp"
+            android:text="@={mainViewModel.quote}"
             app:layout_constraintBottom_toTopOf="@+id/quoteText"
             app:layout_constraintEnd_toEndOf="@+id/quoteText"
             app:layout_constraintStart_toStartOf="@+id/quoteText" />
 
-<!--        One way data binding-->
         <TextView
             android:id="@+id/quoteText"
             android:layout_width="0dp"
@@ -55,18 +58,42 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.44" />
+            app:layout_constraintVertical_bias="0.316" />
 
-<!--        update using live data-->
         <Button
+            android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="Update Quote"
+            android:layout_marginTop="16dp"
             android:onClick="@{()-> mainViewModel.updateQuote()}"
+            android:text="Update Quote"
             app:layout_constraintEnd_toEndOf="@+id/quoteText"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="@+id/quoteText"
             app:layout_constraintTop_toBottomOf="@+id/quoteText" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            imageFromUrl="@{mainViewModel.image}"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.484"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Image From Binding Adapter"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
