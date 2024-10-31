@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_photo"
+        android:title="Photos" />
+    <item
+        android:id="@+id/albumFragment"
+        android:icon="@drawable/ic_albums"
+        android:title="Album" />
+    <item
+        android:id="@+id/cameraFragment"
+        android:icon="@drawable/ic_camera"
+        android:title="Camera" />
+
+
+</menu>

@@ -1,0 +1,7 @@
+package com.example.gallery.Repository
+
+import android.database.ContentObserver
+import android.os.Handler
+
+class GalleryContentObserver(private val handler: Handler, on) : ContentObserver(handler) {
+}
