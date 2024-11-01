@@ -7,6 +7,9 @@ import android.Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
 import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.GestureDetector
+import android.view.MotionEvent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -15,10 +18,18 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager2.widget.ViewPager2
+import com.example.gallery.Adapters.ViewPagerAdapter
+import com.example.gallery.Fragment.AlbumFragment
+import com.example.gallery.Fragment.CameraFragment
+import com.example.gallery.Fragment.HomeFragment
 import com.example.gallery.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    lateinit var bottomNavigationView: BottomNavigationView
+    lateinit var viewPager: ViewPager2 // View pager is responsible for swiping between fragments
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,18 +49,49 @@ class MainActivity : AppCompatActivity() {
 
 
         // set up bottom navigation
-        val bottomNavigation = binding.bottomNavigationView
-        val navigationController = findNavController(R.id.fragmentContainerView)
-        bottomNavigation.setupWithNavController(navigationController)
+        bottomNavigationView = binding.bottomNavigationView
+        viewPager = binding.viewPager
 
-        val currentFragmentName = binding.currentFragmentName
+        setupViewPager()
+        setupBottomNavigationView()
 
-        navigationController.addOnDestinationChangedListener { _, destination, _ ->
-            currentFragmentName.text = when(destination.id) {
-                R.id.homeFragment -> "Photos"
-                R.id.albumFragment -> "Album"
-                else -> "Camera"
+    }
+
+
+    private fun setupViewPager() {
+        val fragments = listOf(
+            HomeFragment(),
+            AlbumFragment(),
+            CameraFragment()
+        )
+        val adapter = ViewPagerAdapter(this, fragments)
+        viewPager.adapter = adapter
+
+        // Handle ViewPager page changes
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                bottomNavigationView.menu.getItem(position).isChecked = true
+
+                // Update current fragment name
+                binding.currentFragmentName.text = when (position) {
+                    0 -> "Photos"
+                    1 -> "Albums"
+                    2 -> "Camera"
+                    else -> "Photos"
+                }
             }
+        })
+    }
+
+    private fun setupBottomNavigationView() {
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.homeFragment -> viewPager.currentItem = 0
+                R.id.albumFragment -> viewPager.currentItem = 1
+                R.id.cameraFragment -> viewPager.currentItem = 2
+            }
+            true
         }
     }
 
@@ -89,4 +131,5 @@ class MainActivity : AppCompatActivity() {
             ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) == PERMISSION_GRANTED
         }
     }
+
 }
