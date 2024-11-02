@@ -56,12 +56,11 @@ class HomeFragment : Fragment() {
         val spanCount = calculateSpanCount()
         val gridLayoutManager= GridLayoutManager(requireContext(), spanCount)
 
-        // Setting span size for date header and media item
         gridLayoutManager.spanSizeLookup = object:GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return when (mediaList[position]) {
-                    is MediaSection.DateHeader -> spanCount // Span the entire row
-                    else -> 1 // Media item only take one column
+                    is MediaSection.DateHeader -> spanCount
+                    else -> 1
                 }
             }
         }
