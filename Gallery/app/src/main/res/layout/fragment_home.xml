@@ -6,9 +6,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragment.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/homeRecyclerView"
+    <com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:id="@+id/fastscroller"
+        android:layout_height="match_parent"
+        app:popupDrawable="@drawable/fast_scroller_popup"
+        app:handleDrawable="@drawable/fast_scroller_popup"
+        app:popupTextStyle="@style/PopupTextStyle"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homeRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
+
 
 </FrameLayout>

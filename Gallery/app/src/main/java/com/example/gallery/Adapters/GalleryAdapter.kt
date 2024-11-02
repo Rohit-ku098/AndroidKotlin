@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.gallery.Model.MediaSection
 import com.example.gallery.R
+import com.example.gallery.Utils.formatDate
+import com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller
 import java.util.Date
 
-class GalleryAdapter(val context:Context,val mediaList: List<MediaSection>): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class GalleryAdapter(val context:Context,val mediaList: List<MediaSection>): RecyclerView.Adapter<RecyclerView.ViewHolder>(), RecyclerViewFastScroller.OnPopupTextUpdate {
     private var itemWidth: Int = context.resources.getDimensionPixelSize(R.dimen.item_width)
     companion object {
         private val VIEW_TYPE_DATE_HEADER = 0
@@ -92,5 +94,15 @@ class GalleryAdapter(val context:Context,val mediaList: List<MediaSection>): Rec
     fun updateItemWidth(newWidth: Int) {
         itemWidth = newWidth
         notifyDataSetChanged() // Refresh the adapter
+    }
+
+    override fun onChange(position: Int): CharSequence {
+        if(mediaList[position] is MediaSection.DateHeader) {
+             return (mediaList[position] as MediaSection.DateHeader).date
+        }
+        else {
+            return formatDate((mediaList[position] as MediaSection.Media).dateAdded*1000 )
+        }
+
     }
 }

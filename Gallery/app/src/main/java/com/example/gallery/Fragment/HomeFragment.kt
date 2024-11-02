@@ -1,6 +1,7 @@
 package com.example.gallery.Fragment
 
 import android.content.res.Configuration
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.gallery.Adapters.GalleryAdapter
 import com.example.gallery.Model.MediaSection
 import com.example.gallery.R
