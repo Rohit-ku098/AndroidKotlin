@@ -1,8 +1,9 @@
 package com.example.gallery.Fragment
 
+import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Rect
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,18 +11,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.gallery.Adapters.GalleryAdapter
+import com.example.gallery.MediaDetailActivity
 import com.example.gallery.Model.MediaSection
 import com.example.gallery.R
+import com.example.gallery.Utils.calculateSpanCount
+import com.example.gallery.Utils.getListFromPreferences
+import com.example.gallery.Utils.saveListToPreferences
+import com.example.gallery.ViewModel.GalleryApplication
 import com.example.gallery.ViewModel.HomeViewModel
 import com.example.gallery.ViewModel.HomeViewModelFactory
 import com.example.gallery.databinding.FragmentHomeBinding
+import java.util.ArrayList
+
 class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
     lateinit var mediaList: MutableList<MediaSection>
     lateinit var galleryAdapter: GalleryAdapter
     lateinit var homeViewModel: HomeViewModel
+
+    companion object {
+        val EXTRA_POSITION = "com.example.gallery.Fragment.HomeFragment.EXTRA_POSITION"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +50,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel = ViewModelProvider(requireActivity(), HomeViewModelFactory(requireContext().contentResolver)).get(HomeViewModel::class.java)
+        homeViewModel = (requireActivity().application as GalleryApplication).homeViewModel
         mediaList = mutableListOf<MediaSection>()
         galleryAdapter = GalleryAdapter(requireContext(), mediaList)
         binding.homeRecyclerView.adapter = galleryAdapter
@@ -52,10 +63,13 @@ class HomeFragment : Fragment() {
             mediaList.addAll(it)
             galleryAdapter.notifyDataSetChanged()
         }
+
+        // Handle item click
+        handleOpenMedia()
     }
 
     private fun setupGridLayoutManager() {
-        val spanCount = calculateSpanCount()
+        val spanCount = calculateSpanCount(resources, resources.getDimensionPixelSize(R.dimen.media_item_width))
         val gridLayoutManager= GridLayoutManager(requireContext(), spanCount)
 
         // Setting span size for date header and media item
@@ -73,12 +87,16 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun calculateSpanCount(): Int {
-        val displayMetrics = resources.displayMetrics
-        val screenWidth = displayMetrics.widthPixels
-        val itemWidth = resources.getDimensionPixelSize(R.dimen.item_width)
-        val spanCount = (screenWidth / itemWidth).coerceAtLeast(1)
-        return spanCount
+    private fun handleOpenMedia() {
+
+        galleryAdapter.setOnItemClickListener(object: GalleryAdapter.OnItemClickListener {
+            override fun onItemClick(position: Int, imageView: View) {
+                val intent = Intent(requireContext(), MediaDetailActivity::class.java)
+                intent.putExtra(EXTRA_POSITION, position)
+
+                startActivity(intent)
+            }
+        })
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

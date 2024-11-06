@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gallery"
         tools:targetApi="31"
-        android:name="com.example.gallery.ViewModel.GalleryApplication">
+        >
         <activity
             android:name=".MediaDetailActivity"
             android:exported="false" />

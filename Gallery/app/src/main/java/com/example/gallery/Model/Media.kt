@@ -1,9 +1,12 @@
 package com.example.gallery.Model
 
 import android.net.Uri
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 sealed class MediaSection {
     data class DateHeader(val date: String) : MediaSection()
+    @Parcelize
     data class Media(
         val uri: Uri,
         val name: String,
@@ -12,5 +15,9 @@ sealed class MediaSection {
         val dateAdded: Long,
         val isVideo: Boolean,
         var duration: Long = 0
-    ) : MediaSection()
+    ) : MediaSection(), Parcelable
+
+    companion object{
+        var mediaCount: Int = 0
+    }
 }

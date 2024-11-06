@@ -21,5 +21,11 @@
 
     </com.qtalk.recyclerviewfastscroller.RecyclerViewFastScroller>
 
+    <FrameLayout
+        android:id="@+id/mediaDetailContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        />
 
 </FrameLayout>

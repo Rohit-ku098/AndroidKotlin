@@ -20,6 +20,7 @@ class MediaRepository {
 
         // Combine images and videos, sorted by date added in descending order.
         val mediaList = (images + videos).sortedByDescending { it.dateAdded }.toMutableList()
+        MediaSection.mediaCount = mediaList.size
 
         // Group media by date added
         val mediaGroup = mutableListOf<MediaSection>()

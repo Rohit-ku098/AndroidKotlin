@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -53,4 +54,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.quiph.ui:recyclerviewfastscroller:1.0.0")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+    implementation ("com.google.code.gson:gson:2.8.9")
+
 }

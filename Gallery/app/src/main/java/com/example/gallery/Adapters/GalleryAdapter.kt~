@@ -63,6 +63,9 @@ class GalleryAdapter(val context:Context,val mediaList: List<MediaSection>): Rec
         val gridImageItem = view.findViewById<ImageView>(R.id.gridImageItem)
         val videoDuration = view.findViewById<TextView>(R.id.gridItemVideoDuration)
 
+        init {
+
+        }
         fun bind(context: Context, mediaList: List<MediaSection>, position: Int, itemWidth: Int) {
             val media = mediaList[position] as MediaSection.Media
 
@@ -82,7 +85,7 @@ class GalleryAdapter(val context:Context,val mediaList: List<MediaSection>): Rec
             layoutParams.height = itemWidth
             gridImageItem.layoutParams = layoutParams
 
-//            gridImageItem.transitionName = "image_${media.uri}"
+            gridImageItem.transitionName = "image_${media.uri}"
 
 
             gridImageItem.setOnClickListener {

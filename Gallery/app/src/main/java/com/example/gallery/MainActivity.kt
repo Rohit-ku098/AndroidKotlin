@@ -10,12 +10,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.View
+import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
