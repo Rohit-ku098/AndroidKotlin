@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">LimitScroll</string>
-    <string name="accessibility_service_label">LimitScroll</string>
-    <string name="accessibility_service_description">Limit scroll is 100% safe. It uses accessibility permission only to detect short video screen. It does not monitor or save any personal information.\n</string>
-</resources>
