@@ -1,0 +1,80 @@
+package com.rkutils.biometricapp
+
+import android.hardware.biometrics.BiometricPrompt
+import android.os.Bundle
+import android.util.Base64
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
+import com.google.firebase.firestore.FirebaseFirestore
+import java.security.*
+import java.security.spec.X509EncodedKeySpec
+import java.util.concurrent.Executor
+
+class MainActivity : ComponentActivity() {
+
+    private val firestore = FirebaseFirestore.getInstance()
+    private val userId = "user123" // Unique user identifier
+    private lateinit var executor: Executor
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        executor = ContextCompat.getMainExecutor(this)
+        generateAndStoreBiometricKey()
+    }
+
+    private fun generateAndStoreBiometricKey() {
+        val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
+        keyPairGenerator.initialize(2048)
+        val keyPair = keyPairGenerator.generateKeyPair()
+
+        val publicKey = Base64.encodeToString(keyPair.public.encoded, Base64.DEFAULT)
+        val privateKey = keyPair.private
+
+        authenticateUser(privateKey) { signature ->
+            // Store public key & signature in Firebase
+            val userBiometricData = hashMapOf(
+                "publicKey" to publicKey,
+                "signature" to signature
+            )
+
+            firestore.collection("biometrics").document(userId)
+                .set(userBiometricData)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Biometric registered!", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Failed to register", Toast.LENGTH_SHORT).show()
+                }
+        }
+    }
+
+    private fun authenticateUser(privateKey: PrivateKey, onSuccess: (String) -> Unit) {
+        val biometricPrompt = BiometricPrompt(
+            this,
+            executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+                    val signature = signData("authentication_data", privateKey)
+                    onSuccess(signature)
+                }
+            }
+        )
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Register Biometric")
+            .setNegativeButtonText("Cancel")
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
+    }
+
+    private fun signData(data: String, privateKey: PrivateKey): String {
+        val signature = Signature.getInstance("SHA256withRSA")
+        signature.initSign(privateKey)
+        signature.update(data.toByteArray())
+        return Base64.encodeToString(signature.sign(), Base64.DEFAULT)
+    }
+}

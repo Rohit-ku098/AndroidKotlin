@@ -4,25 +4,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -31,18 +31,54 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.composenavigation.ui.theme.ComposeNavigationTheme
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
             ComposeNavigationTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                var bottomNavSelectedIndex by rememberSaveable { mutableStateOf(0) }
+                Scaffold(
+                    bottomBar = {
+                        BottomAppBar {
+                            navItems.forEachIndexed { index, item ->
+                                NavigationBarItem(
+                                    label = {
+                                        Text(text = item.title)
+                                    },
+                                    icon = {
+                                        BadgedBox(
+                                            badge = {
+                                                if (item.badgeCount != null) {
+                                                    Badge {
+                                                        Text(item.badgeCount.toString())
+                                                    }
+                                                }
+                                                else if(item.badgeFlag) {
+                                                    Badge()
+                                                }
+                                            }
+                                        ) {
+                                            if(index == bottomNavSelectedIndex)
+                                                Icon(item.selectedIcon, contentDescription = item.title)
+                                            else
+                                                Icon(item.unselectedIcon, contentDescription = item.title)
+                                        }
+                                    },
+                                    selected = index == bottomNavSelectedIndex,
+                                    onClick = {
+                                        bottomNavSelectedIndex = index
+                                    },
+                                )
+                            }
+                        }
+                    },
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
                     Box(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center,
+                        modifier = Modifier.padding(innerPadding),
                     ) {
                         App()
                     }

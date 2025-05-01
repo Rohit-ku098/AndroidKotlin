@@ -1,0 +1,113 @@
+package com.example.authenticationapp.Screens
+
+import android.widget.Toast
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import com.example.authenticationapp.AuthStatus
+import com.example.authenticationapp.AuthViewModel
+import com.example.authenticationapp.Routes
+
+@Composable
+fun LoginPage(modifier: Modifier, navController: NavController, authViewModel: AuthViewModel) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val authStatus = authViewModel.authStatus.collectAsState()
+    val context = LocalContext.current
+
+
+    LaunchedEffect(authStatus.value) {
+        when(authStatus.value) {
+            is AuthStatus.Authenticated -> navController.navigate(Routes.HomePage)
+            is AuthStatus.Error -> Toast.makeText (
+                context,
+                (authStatus.value as AuthStatus.Error).message,
+                Toast.LENGTH_SHORT
+            ).show()
+            else -> Unit
+        }
+    }
+
+    Box(
+        modifier = modifier.fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(4.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text="Login",
+                fontSize = 22.sp,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            Spacer(modifier = Modifier.padding(8.dp))
+
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text(text = "Email") },
+            )
+            Spacer(modifier = Modifier.padding(8.dp))
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text(text = "Password") },
+            )
+            Spacer(modifier = Modifier.padding(8.dp))
+
+            Button(
+                onClick = {
+                    authViewModel.login(email, password)
+                },
+                enabled = authStatus.value != AuthStatus.Loading
+            ) {
+                Text(text = "Login")
+            }
+
+            Spacer(modifier = Modifier.padding(8.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text("Don't have an account?")
+                Text(
+                    text = "Sign Up",
+                    modifier = Modifier
+                        .clickable {
+                            navController.navigate(Routes.SignupPage)
+                        }
+                        .padding(start = 4.dp)
+                )
+
+            }
+        }
+    }
+}
